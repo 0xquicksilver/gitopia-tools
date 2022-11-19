@@ -5,21 +5,25 @@ import {
 	sendTransaction,
 } from "./wallet";
 import puppeteer, { ElementHandle } from "puppeteer";
+import { exec } from "child_process";
+
 let password = "fuckformekjhgf";
 
 const main = async () => {
-	const browser = await puppeteer.launch({
-		headless: false,
-		timeout: 999999,
-		args: [
-			// "--no-sandbox",
-			// "--proxy-server=socks5://127.0.0.1:9050",
-			// Use proxy for localhost URLs
-			// "--proxy-bypass-list=<-loopback>",
-		],
-	});
-
-	await gitopia(browser);
+	exec("service tor reload");
+	setTimeout(async () => {
+		const browser = await puppeteer.launch({
+			headless: true,
+			timeout: 999999,
+			args: [
+				"--no-sandbox",
+				"--proxy-server=socks5://127.0.0.1:9050",
+				// Use proxy for localhost URLs
+				"--proxy-bypass-list=<-loopback>",
+			],
+		});
+		await gitopia(browser);
+	}, 10 * 1000);
 };
 
 const gitopia = async (browser: any) => {
