@@ -26,7 +26,7 @@ export async function fromMnemonic(mnemonic: string): Promise<OfflineSigner> {
 export async function getBalance(mnemonic: string) {
 	const wallet = await fromMnemonic(mnemonic);
 	const client = await SigningStargateClient.connectWithSigner(
-		publicRpc,
+		localRpc,
 		wallet
 	);
 	const [firstAccount] = await wallet.getAccounts();
@@ -39,7 +39,7 @@ export async function sendTransaction(
 	recipient: string
 ) {
 	const client = await SigningStargateClient.connectWithSigner(
-		publicRpc,
+		localRpc,
 		wallet
 	);
 	const [firstAccount] = await wallet.getAccounts();
